@@ -3,6 +3,7 @@ import re
 import sys
 import subprocess
 import platform
+import glob
 
 
 def which(cmd):
@@ -51,8 +52,10 @@ def julia_base_from_home_directory_win():
    return path
 
 def julia_base_from_applications():
-   julia_dir = "/Applications/Julia-0.3.0.app/Contents/Resources/julia/"
-   if os.path.isdir(julia_dir): return julia_dir
+   julia_dirs = glob.glob("/Applications/Julia-*.app/Contents/Resources/julia/")
+   if(julia_dirs is not None and len(julia_dirs) > 0):
+      julia_dirs.sort(reverse=True) # use latest if multiple homes exist
+      return julia_dirs[0]
    return ""
 
 def find_julia_base(operating_system):

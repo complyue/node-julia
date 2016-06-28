@@ -1,6 +1,7 @@
 import os
 import sys
 import subprocess
+import glob
 
 
 def julia_from_which_julia():
@@ -41,8 +42,10 @@ def julia_from_home_directory_win():
    return "";
 
 def julia_from_applications():
-   julia_dir = "/Applications/Julia-0.3.0.app/Contents/Resources/julia/"
-   if os.path.isdir(julia_dir): return julia_dir
+   julia_dirs = glob.glob("/Applications/Julia-*.app/Contents/Resources/julia/")
+   if(julia_dirs is not None and len(julia_dirs) > 0):
+      julia_dirs.sort(reverse=True) # use latest if multiple homes exist
+      return julia_dirs[0]
    return ""
 
 if sys.argv[1] == "win":
