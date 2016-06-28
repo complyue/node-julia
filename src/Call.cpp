@@ -162,7 +162,7 @@ nj::Result nj::Call::eval(vector<shared_ptr<nj::Value>> &args,int64_t exprId)
             if(!jl_args[i]) rvalue_error = true;
          }
          if(!rvalue_error) jl_res = jl_call(func,jl_args,(int)numArgs);
-         delete jl_args;
+         delete[] jl_args;
       }
 
       if(rvalue_error)
